@@ -100,5 +100,12 @@ while coffee_machine_on:
     elif request == "off":
         print ("powering off coffee machine")
         coffee_machine_on = False
+    elif request == "refill":
+        print ("refilling the machine with more resources!")
+        resources = {
+            "water": 300,
+            "milk": 200,
+            "coffee": 100,
+        }
     else:
         get_beverage(request)
