@@ -31,7 +31,7 @@ while is_race_on:
                 print (f"You won! - the {winning_color} turtle is the winner!")
             else:
                 print (f"You lost - the {winning_color} turtle is the winner!")
-                print(all_turtles)
+               
         rand_distance = random.randint(0,10)
         turtle.forward(rand_distance)
 
