@@ -1,7 +1,7 @@
 import turtle
 import pandas
 ALL_STATES = 50
-FONT = ("Courier", 8, "Ariel")
+FONT = ("Ariel", 8, "normal")
 
 #read the CSV file and make a list of states to search thru
 data = pandas.read_csv("50_states.csv")
@@ -24,8 +24,6 @@ turtlepen = turtle.Turtle()
 #set up initial box prompts
 title_input = "Guess The State"
 prompt_input = "What's another state's name?"
-
-game_is_on = True
 
 while current_states != 50:
     turtlepen.hideturtle()
