@@ -6,7 +6,7 @@ FONT = ("Ariel", 8, "normal")
 # read the CSV file and make a list of states to search through
 data = pandas.read_csv("50_states.csv")
 states_list = data["state"].to_list()
-missed_states = []
+]
 
 # setup the screen
 screen = turtle.Screen()
@@ -26,7 +26,7 @@ turtle_pen = turtle.Turtle()
 title_input = "Guess The State"
 prompt_input = "What's another state's name?"
 
-game_is_on = True
+
 
 while current_states != 50:
     turtle_pen.hideturtle()
@@ -35,9 +35,9 @@ while current_states != 50:
     answer_state = answer_state.title()
     # Provide an exit out that prints a list of missed states
     if answer_state == "Exit":
-        for guesses in states_list:
-            if guesses not in list_of_current_states:
-                missed_states.append(guesses)
+    # Provide an exit out that prints a list of missed states
+    if answer_state == "Exit":
+        missed_states = [guesses for guesses in states_list if guesses not in list_of_current_states]
 
         new_data = pandas.DataFrame(missed_states)
         new_data.to_csv("missed_states.csv")
