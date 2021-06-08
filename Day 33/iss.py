@@ -62,8 +62,9 @@ while True:
             connection.sendmail(
                 from_addr=MY_EMAIL,
                 to_addrs="xxxxxxxx",
-                msg=f"Subject:ISS is overhead\n\nThe ISS is overhead at {iss_latitude} Latitude and{iss_longitude} Longitude"
-                    f"at {time_now}"
+                msg=f"Subject:ISS is overhead\n\nThe ISS is overhead at {iss_latitude} Latitude and {iss_longitude} "
+                    f"Longitude at {time_now}"
+            )
             )
 
 
