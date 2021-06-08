@@ -57,7 +57,7 @@ while True:
     if is_nighttime and is_overhead:
 
         with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.startttls()
+            connection.starttls()
             connection.login(user=MY_EMAIL, password=MY_PASSWORD)
             connection.sendmail(
                 from_addr=MY_EMAIL,
