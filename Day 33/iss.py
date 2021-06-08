@@ -43,11 +43,11 @@ while True:
         sunrise += 24
     if sunset < 0:
         sunset +=24
-
-    if sunrise < time_now.hour < sunset:
-        is_nighttime = False
-    else:
+        
+    if time_now.hour >= sunset or time_now.hour <= sunrise:
         is_nighttime = True
+    else:
+        is_nighttime = False
 
 
 
