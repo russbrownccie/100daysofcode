@@ -1,0 +1,48 @@
+from art import logo, vs
+from game_data import data
+import random
+from replit import clear
+game_on = True
+first_choice = random.choice(data)
+score = 0
+print(logo)
+while game_on == True:
+
+    second_choice = random.choice(data)
+    while second_choice == first_choice:
+        second_choice = random.choice(data)
+
+    first_name = (first_choice['name'])
+    first_follower = int(first_choice['follower_count'])
+    first_description = (first_choice['description'])
+    first_country = (first_choice['country'])
+
+    second_name = (second_choice['name'])
+    second_follower = int(second_choice['follower_count'])
+    second_description = (second_choice['description'])
+    second_country = (second_choice['country'])
+
+   
+    print (f"Compare A: {first_name}, {first_description}, from {first_country}")
+    print (vs)
+    print (f"Against B: {second_name}, {second_description}, from {second_country}")
+    choice = input("Who has more followers? Type 'A' or 'B': ").lower()
+
+    if choice == 'a' and first_follower > second_follower:
+        clear()
+        print(logo)
+        score +=1
+        print(f"You're right! Current Score: {score}")
+        first_choice = second_choice
+    elif choice == 'b' and second_follower > first_follower:
+        clear()
+        print(logo)
+        score +=1
+        print(f"You're right! Current Score: {score}")
+        first_choice = second_choice
+    else:
+        clear()
+        print(logo)
+        print(f"Sorry, that's wrong.  Final Score: {score}")
+        game_on = False
+
