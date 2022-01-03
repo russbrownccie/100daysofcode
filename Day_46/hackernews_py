@@ -2,13 +2,13 @@ from bs4 import BeautifulSoup
 import requests
 
 response = requests.get("https://news.ycombinator.com/")
-yc_webpage = (response.text)
+yc_webpage = response.text
 
 soup = BeautifulSoup(yc_webpage, "html.parser")
 articles = (soup.find_all(name="a", class_="titlelink"))
 # print(article_tag)
-article_texts= []
-article_links= []
+article_texts = []
+article_links = []
 for article_tag in articles:
     text = (article_tag.getText())
     article_texts.append(text)
