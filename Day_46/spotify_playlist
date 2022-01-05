@@ -1,0 +1,61 @@
+from bs4 import BeautifulSoup
+import requests
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+
+SPOTIFY_CLIENT_ID = <snip>
+SPOTIFY_CLIENT_SECRET = <snip>
+SPOTIFY_REDIRECT_URL = "https://example.com"
+
+date = input("What date would you like to travel to - please input as YYYY-MM-DD: ")
+url = f"https://www.billboard.com/charts/hot-100/{date}"
+song_list = []
+song_names = []
+response = requests.get(url)
+webpage = response.text
+soup = BeautifulSoup(webpage, "html.parser")
+
+# due to differences between first song and the others I am pulling two sets of data - one for just the first song
+first_song = soup.find(name="h3", class_="c-title a-no-trucate a-font-primary-bold-s u-letter-spacing-0021"
+                                         " u-font-size-23@tablet lrv-u-font-size-16 u-line-height-125"
+                                         " u-line-height-normal@mobile-max a-truncate-ellipsis"
+                                         " u-max-width-245 u-max-width-230@tablet-only u-letter-spacing-0028@tablet")
+
+# this one for the other 99 under a slightly different class
+song_titles = soup.find_all(name="h3", class_="c-title a-no-trucate a-font-primary-bold-s"
+                                             " u-letter-spacing-0021 lrv-u-font-size-18@tablet lrv-u-font-size-16"
+                                             " u-line-height-125 u-line-height-normal@mobile-max a-truncate-ellipsis"
+                                             " u-max-width-330 u-max-width-230@tablet-only")
+
+
+# This section strips the line breaks and leaves us with a pure list
+
+song_list.append(first_song.getText())
+for title in song_titles:
+    song_list.append(title.getText())
+
+for i in song_list:
+    song_names.append(i.strip())
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
+                                               client_secret=SPOTIFY_CLIENT_SECRET,
+                                               redirect_uri=SPOTIFY_REDIRECT_URL,
+                                               scope="playlist-modify-private",
+                                               show_dialog=True,
+                                               cache_path="token.txt"))
+user_id = sp.current_user()["id"]
+song_uris = []
+target_year = int(date.split("-")[0])
+year = str(f"{target_year - 1}-{target_year + 1}")
+
+
+for song in song_names:
+    result = sp.search(q=f"track:{song} year:{year}", type="track", market="US", limit="1")
+    try:
+        uri = result["tracks"]["items"][0]["uri"]
+        song_uris.append(uri)
+    except IndexError:
+        print(f"{song} doesn't exist in Spotify. Skipped.")
+
+playlist = sp.user_playlist_create(user=user_id, name=f"{date} Billboard 100", public=False)
+sp.playlist_add_items(playlist_id=playlist["id"], items=song_uris)
