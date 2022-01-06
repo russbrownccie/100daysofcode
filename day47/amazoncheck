@@ -1,0 +1,39 @@
+import smtplib
+
+import requests
+from bs4 import BeautifulSoup
+
+my_email = "snip"
+my_password = "snip"
+TARGET_PRICE = 200
+headers = {
+    "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+    "Accept-Language":"en-US,en;q=0.9"
+}
+URL="<snip>"
+
+response = requests.get(url=URL, headers=headers)
+website=response.text
+soup = BeautifulSoup(website, "lxml")
+
+#price = soup.find(class_="a-offscreen")
+#price = soup.find(span="aria-hidden")
+dollarprice = soup.find(name="span", class_="apexPriceToPay")
+print(dollarprice)
+dollar = (dollarprice.getText())
+string_price = dollar.split("$")
+price = float(string_price[1])
+item = soup.find(id="productTitle").get_text().strip()
+wanteditem = (item.getText())
+
+print(item)
+#
+if price < TARGET_PRICE:
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user=my_email, password=my_password)
+        connection.sendmail(
+            from_addr=my_email,
+            to_addrs="snip",
+            msg=f"Subject:Amazon Price Alert!\n\nThe item you wanted\n\n{wanteditem}\n\nis now priced at ${price}"
+        )
