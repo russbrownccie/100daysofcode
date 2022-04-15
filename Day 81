@@ -1,0 +1,19 @@
+import sys
+alphabet = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+            't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+MorseCode = ['      ', '._', '_...', '_._.', '_..', '.', '.._.', '__.', '....', '..', '.___', '_._', '._..', '__',
+            '_.', '___', '.__.', '__._', '._.', '...', '_', '.._', '..._', '.__', '_.._', '_.__', '__..',
+            '.____', '..___', '...__', '...._', '.....', '_....', '__...', '___..', '____.', '_____']
+plaintext = input("Please enter your plaintext - use only letters, numbers, and spaces \n"
+                  "no punctuation or other characters are permitted in morse code: ")
+
+MorseText = ''
+for character in plaintext.lower():
+    try:
+        value = alphabet.index(character)
+    except ValueError:
+        print (f"invalid characters - {character} is not a valid character for Morse Code")
+        sys.exit()
+    MorseText += MorseCode[value] + "  "
+
+print(MorseText)
